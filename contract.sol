@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0
 
-pragma solidity 0.8.19;
+pragma solidity 0.8.24;
+// importing String.sol from openzeppelin library
+import "@openzeppelin/contracts/utils/Strings.sol";
 
 contract Votaciones 
 {
@@ -65,6 +67,7 @@ contract Votaciones
                 if(Candidatos[j].ID==CandidatoVotado)
                 {
                 Candidatos[j].Votos++;
+                return;
                 }
             }
                 return;
@@ -82,6 +85,7 @@ contract Votaciones
                 Candidatos[i].ID=ID;
                 Candidatos[i].Nombre=Nombre;
                 Candidatos[i].Votos=0;
+                return;
             }
         }
     }
@@ -100,6 +104,22 @@ contract Votaciones
         }
        }
     CandidatoGanador=CandGanador.Nombre;
+    }
+    function GetCandidatos() public view 
+    returns (string memory ListaCandidatos)
+    {
+        for(uint i=0;i<Candidatos.length;i++)
+        {
+            ListaCandidatos=string.concat(ListaCandidatos," [ID:",Strings.toString(Candidatos[i].ID),", Nombre:",Candidatos[i].Nombre,", Votos:",Strings.toString(Candidatos[i].Votos),"] ");
+        }
+    }
+    function GetVotadores() public view 
+    returns (string memory ListaVotadores)
+    {
+        for(uint i=0;i<Votadores.length;i++)
+        {
+            ListaVotadores=string.concat(ListaVotadores," [ID:",Strings.toHexString(uint160(Votadores[i].ID), 20),", Voto por:",Strings.toString(Votadores[i].Voto));
+        }
     }
 
 
